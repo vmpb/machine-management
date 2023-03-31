@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
 import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Link } from 'react-router-dom';
 
-const API_URL = 'http://localhost:3001/api/machines';
+const API_URL = 'http://localhost:3001/api/machines/';
 
 const Machines = () => {
     const [machines, setMachines] = useState([]);
@@ -74,7 +75,6 @@ const Machines = () => {
                         required
                         InputLabelProps={{ shrink: true }}
                     />
-
                     <TextField
                         id="serialNumber"
                         label="Serial Number"
@@ -166,6 +166,9 @@ const Machines = () => {
                                 <TableCell>{machine.name}</TableCell>
                                 <TableCell>{machine.serial_number}</TableCell>
                                 {/* Add other columns here */}
+                                <TableCell>
+                                    <Link to={`/machines/${machine.id}`}>View</Link>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
