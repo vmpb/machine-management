@@ -7,3 +7,12 @@ frontend/node_modules
 
 # Environment variables
 *.env
+
+# Node.js specific
+node_modules
+npm-debug.log
+
+# IDE files
+.vscode
+*.iml
+.idea
