@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models/database');
 
-router.get('/deliveries/machine/:machineId', async (req, res) => {
+router.get('/machine/:machineId', async (req, res) => {
     console.log("Accessing the route /deliveries/machine/:machineId");
     const machineId = req.params.machineId;
     try {
@@ -17,3 +17,5 @@ router.get('/deliveries/machine/:machineId', async (req, res) => {
         res.status(500).send('Server error');
     }
 });
+
+module.exports = router;

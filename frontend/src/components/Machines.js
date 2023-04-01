@@ -86,7 +86,6 @@ const Machines = () => {
                         required
                         InputLabelProps={{ shrink: true }}
                     />
-
                     <TextField
                         id="siteId"
                         label="Site ID"
@@ -98,7 +97,6 @@ const Machines = () => {
                         required
                         InputLabelProps={{ shrink: true }}
                     />
-
                     <TextField
                         id="tagNumber"
                         label="Tag Number"
@@ -109,7 +107,6 @@ const Machines = () => {
                         variant="outlined"
                         InputLabelProps={{ shrink: true }}
                     />
-
                     <TextField
                         id="type"
                         label="Type"
@@ -120,7 +117,6 @@ const Machines = () => {
                         variant="outlined"
                         InputLabelProps={{ shrink: true }}
                     />
-
                     <TextField
                         id="so"
                         label="SO"
@@ -131,7 +127,6 @@ const Machines = () => {
                         variant="outlined"
                         InputLabelProps={{ shrink: true }}
                     />
-
                     <TextField
                         id="cccref"
                         label="CCC Ref"
@@ -142,7 +137,6 @@ const Machines = () => {
                         variant="outlined"
                         InputLabelProps={{ shrink: true }}
                     />
-
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
