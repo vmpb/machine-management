@@ -6,7 +6,12 @@ import Hardware from './components/Hardware';
 import HardwareDetails from './components/HardwareDetails';
 import Software from './components/Software';
 import SoftwareDetails from './components/SoftwareDetails';
-import { Snackbar, Alert } from '@mui/material';
+import { Snackbar, Alert, Box } from '@mui/material';
+import Navbar from './components/Navbar';
+import Sidenav from './components/Sidenav';
+import { useMediaQuery, useTheme } from '@mui/material';
+import Grid from '@mui/material/Grid';
+import { Container } from '@mui/material';
 
 // Import components for hardware components and software here
 
@@ -15,12 +20,19 @@ function App() {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
     setSnackbarOpen(false);
+  };
+
+  const handleDrawerToggle = () => {
+    setDrawerOpen((prevOpen) => !prevOpen);
   };
 
   const handleSnackbarOpen = (severity, message) => {
@@ -31,7 +43,9 @@ function App() {
 
   return (
     <Router>
-      <div>
+      <div className="App">
+      <Sidenav handleDrawerToggle={handleDrawerToggle} drawerOpen={drawerOpen} />
+        <Navbar onHamburgerClick={handleDrawerToggle} />
         <Routes>
           <Route path="/machines" element={<Machines />} />
           <Route
@@ -63,6 +77,5 @@ function App() {
       </div>
     </Router>
   );
-}
-
+};
 export default App;

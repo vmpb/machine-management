@@ -21,7 +21,6 @@ router.get('/:id', async (req, res) => {
     if (result.rows.length === 0) {
       return res.status(404).json({ error: `Machine with ID ${id} not found` });
     }
-    console.log(result)
     res.json(result.rows[0]);
   } catch (err) {
     console.error(err);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Snackbar, Alert, Paper, TableContainer, Typography, Box, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button } from '@mui/material';
+import { Snackbar, Alert, Paper, TableContainer, Typography, Box, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Container } from '@mui/material';
 import './MachineDetails.css';
 
 const MachineDetails = (props) => {
@@ -49,7 +49,8 @@ const MachineDetails = (props) => {
         } else {
             setShake(true);
             setTimeout(() => setShake(false), 820);
-            props.handleSnackbarOpen('error', 'Incorrect machine name');        }
+            props.handleSnackbarOpen('error', 'Incorrect machine name');
+        }
     }
 
     useEffect(() => {
@@ -81,100 +82,101 @@ const MachineDetails = (props) => {
     }
 
     return (
-        <Paper elevation={6} style={{ padding: '1rem' }}>
-            <Box sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '1rem',
-            }}
-            >
-                <Typography variant="h4" component="h1" gutterBottom>
-                    {machine.name}
-                </Typography>
-                <Button variant="outlined" color="error" onClick={handleOpen}>
-                    Delete Machine
-                </Button>
-            </Box>
-            <Dialog open={open} onClose={handleClose} className={shake ? 'shake' : ''}>
-                <DialogTitle>Confirm Deletion</DialogTitle>
-                <DialogContent>
-                    <DialogContentText>
-                        To confirm the deletion of the machine, please type the machine name.
-                    </DialogContentText>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        label="Machine Name"
-                        type="text"
-                        fullWidth
-                        value={deleteInput}
-                        onChange={(e) => setDeleteInput(e.target.value)}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={() => deleteMachine(id)} color="error">
+        <Container maxWidth="lg">
+            <Paper elevation={10} style={{ padding: '1rem' }}>
+                <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: '1rem',
+                }}
+                >
+                    <Typography variant="h4" component="h1" gutterBottom>
+                        {machine.name}
+                    </Typography>
+                    <Button variant="outlined" color="error" onClick={handleOpen}>
                         Delete Machine
                     </Button>
-                </DialogActions>
-            </Dialog>
-            <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={3000}
-                onClose={handleSnackbarClose}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-            >
-                <Alert onClose={handleSnackbarClose} severity={messageType}>
-                    {messageType === 'success' ? 'Machine successfully deleted' : 'Incorrect machine name'}
-                </Alert>
-            </Snackbar>
-            <Typography variant="subtitle1" gutterBottom>
-                Serial number: {machine.serial_number}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-                Tag number: {machine.tag_number}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-                Type: {machine.type}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-                Site ID: {machine.siteid}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-                SO: {machine.so}
-            </Typography>
-            <Typography variant="subtitle1" gutterBottom>
-                CCCREF: {machine.cccref}
-            </Typography>
-
-            <Typography variant="h5" component="h2" gutterBottom>
-                Delivery
-            </Typography>
-            {delivery.length === 0 ? (
-                <Typography variant="body1" component="p" gutterBottom>
-                    No deliveries associated with this machine.
+                </Box>
+                <Dialog open={open} onClose={handleClose} className={shake ? 'shake' : ''}>
+                    <DialogTitle>Confirm Deletion</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            To confirm the deletion of the machine, please type the machine name.
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Machine Name"
+                            type="text"
+                            fullWidth
+                            value={deleteInput}
+                            onChange={(e) => setDeleteInput(e.target.value)}
+                        />
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleClose} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={() => deleteMachine(id)} color="error">
+                            Delete Machine
+                        </Button>
+                    </DialogActions>
+                </Dialog>
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={3000}
+                    onClose={handleSnackbarClose}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                >
+                    <Alert onClose={handleSnackbarClose} severity={messageType}>
+                        {messageType === 'success' ? 'Machine successfully deleted' : 'Incorrect machine name'}
+                    </Alert>
+                </Snackbar>
+                <Typography variant="subtitle1" gutterBottom>
+                    Serial number: {machine.serial_number}
                 </Typography>
-            ) : (
-                <TableContainer component={Paper}>
-                    <Typography variant="subtitle1" gutterBottom>
-                        <strong>Estimated Delivery Date:</strong> {delivery[0].estimated_delivery_date}
-                    </Typography>
-                    <Typography variant="subtitle1" gutterBottom>
-                        <strong>Delivery Status:</strong> {delivery[0].delivery_status}
-                    </Typography>
-                    <Typography variant="subtitle1" gutterBottom>
-                        <strong>Carrier:</strong> {delivery[0].carrier}
-                    </Typography>
-                    <Typography variant="subtitle1" gutterBottom>
-                        <strong>Tracking Number:</strong> {delivery[0].tracking_number}
-                    </Typography>
-                </TableContainer>
-            )}
-        </Paper>
+                <Typography variant="subtitle1" gutterBottom>
+                    Tag number: {machine.tag_number}
+                </Typography>
+                <Typography variant="subtitle1" gutterBottom>
+                    Type: {machine.type}
+                </Typography>
+                <Typography variant="subtitle1" gutterBottom>
+                    Site ID: {machine.siteid}
+                </Typography>
+                <Typography variant="subtitle1" gutterBottom>
+                    SO: {machine.so}
+                </Typography>
+                <Typography variant="subtitle1" gutterBottom>
+                    CCCREF: {machine.cccref}
+                </Typography>
 
+                <Typography variant="h5" component="h2" gutterBottom>
+                    Delivery
+                </Typography>
+                {delivery.length === 0 ? (
+                    <Typography variant="body1" component="p" gutterBottom>
+                        No deliveries associated with this machine.
+                    </Typography>
+                ) : (
+                    <TableContainer component={Paper}>
+                        <Typography variant="subtitle1" gutterBottom>
+                            <strong>Estimated Delivery Date:</strong> {delivery[0].estimated_delivery_date}
+                        </Typography>
+                        <Typography variant="subtitle1" gutterBottom>
+                            <strong>Delivery Status:</strong> {delivery[0].delivery_status}
+                        </Typography>
+                        <Typography variant="subtitle1" gutterBottom>
+                            <strong>Carrier:</strong> {delivery[0].carrier}
+                        </Typography>
+                        <Typography variant="subtitle1" gutterBottom>
+                            <strong>Tracking Number:</strong> {delivery[0].tracking_number}
+                        </Typography>
+                    </TableContainer>
+                )}
+            </Paper>
+        </Container>
     );
 };
 

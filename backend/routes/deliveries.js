@@ -3,7 +3,6 @@ const router = express.Router();
 const db = require('../models/database');
 
 router.get('/machine/:machineId', async (req, res) => {
-    console.log("Accessing the route /deliveries/machine/:machineId");
     const machineId = req.params.machineId;
     try {
         const result = await db.query('SELECT * FROM deliveries WHERE machine_id = $1', [machineId]);
