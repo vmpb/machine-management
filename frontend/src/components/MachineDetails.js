@@ -151,7 +151,9 @@ const MachineDetails = (props) => {
                 <Typography variant="subtitle1" gutterBottom>
                     CCCREF: {machine.cccref}
                 </Typography>
-
+                <Typography variant="subtitle1" gutterBottom>
+                    machineID: {machine.machineID}
+                </Typography>
                 <Typography variant="h5" component="h2" gutterBottom>
                     Delivery
                 </Typography>

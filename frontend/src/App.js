@@ -9,11 +9,15 @@ import SoftwareDetails from './components/SoftwareDetails';
 import { Snackbar, Alert, Box } from '@mui/material';
 import Navbar from './components/Navbar';
 import Sidenav from './components/Sidenav';
-import { useMediaQuery, useTheme } from '@mui/material';
-import Grid from '@mui/material/Grid';
-import { Container } from '@mui/material';
+import Login from './components/Login';
+import PrivateLayout from './components/PrivateLayout';
+import Register from './components/Register';
 
 // Import components for hardware components and software here
+
+function isLoggedIn() {
+  return localStorage.getItem('authToken') !== null;
+}
 
 function App() {
 
@@ -21,8 +25,6 @@ function App() {
   const [snackbarSeverity, setSnackbarSeverity] = useState('success');
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleSnackbarClose = (event, reason) => {
     if (reason === 'clickaway') {
@@ -35,33 +37,41 @@ function App() {
     setDrawerOpen((prevOpen) => !prevOpen);
   };
 
+
   const handleSnackbarOpen = (severity, message) => {
     setSnackbarSeverity(severity);
     setSnackbarMessage(message);
     setSnackbarOpen(true);
   };
 
+
+
   return (
     <Router>
       <div className="App">
-      <Sidenav handleDrawerToggle={handleDrawerToggle} drawerOpen={drawerOpen} />
-        <Navbar onHamburgerClick={handleDrawerToggle} />
+        <Sidenav handleDrawerToggle={handleDrawerToggle} drawerOpen={drawerOpen} isLoggedIn={isLoggedIn} />
+        <Navbar onHamburgerClick={handleDrawerToggle} isLoggedIn={isLoggedIn} />
         <Routes>
-          <Route path="/machines" element={<Machines />} />
-          <Route
-            path="/machines/:id"
-            element={
-              <MachineDetails
-                handleSnackbarOpen={handleSnackbarOpen}
-                setSnackbarSeverity={setSnackbarSeverity}
-                setSnackbarMessage={setSnackbarMessage}
-              />
-            }
-          />
-          <Route path="/hardware" element={<Hardware />} />
-          <Route path="/hardware/:id" element={<HardwareDetails />} />
-          <Route path="/software" element={<Software />} />
-          <Route path="/software/:id" element={<SoftwareDetails />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<PrivateLayout />} >
+            <Route path="/machines" index element={<Machines />} />
+            <Route
+              path="/machines/:id"
+              element={
+                <MachineDetails
+                  handleSnackbarOpen={handleSnackbarOpen}
+                  setSnackbarSeverity={setSnackbarSeverity}
+                  setSnackbarMessage={setSnackbarMessage}
+                />
+              }
+            />
+            <Route path="/hardware" element={<Hardware />} />
+            <Route path="/hardware/:id" element={<HardwareDetails />} />
+            <Route path="/software" element={<Software />} />
+            <Route path="/software/:id" element={<SoftwareDetails />} />
+            {/* Add routes for hardware components and software here using the 'element' prop */}
+          </Route>
           {/* Add routes for hardware components and software here using the 'element' prop */}
         </Routes>
         <Snackbar
