@@ -11,7 +11,6 @@ function Navbar({ onHamburgerClick, isLoggedIn }) {
 
   const handleLogout = () => {
     localStorage.removeItem('authToken');
-    
     navigate('/login');
   };
 

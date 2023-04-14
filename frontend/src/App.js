@@ -12,6 +12,7 @@ import Sidenav from './components/Sidenav';
 import Login from './components/Login';
 import PrivateLayout from './components/PrivateLayout';
 import Register from './components/Register';
+import MachineEdit from './components/MachineEdit';
 
 // Import components for hardware components and software here
 
@@ -44,13 +45,15 @@ function App() {
     setSnackbarOpen(true);
   };
 
+  
+
 
 
   return (
     <Router>
       <div className="App">
         <Sidenav handleDrawerToggle={handleDrawerToggle} drawerOpen={drawerOpen} isLoggedIn={isLoggedIn} />
-        <Navbar onHamburgerClick={handleDrawerToggle} isLoggedIn={isLoggedIn} />
+        <Navbar onHamburgerClick={handleDrawerToggle} isLoggedIn={isLoggedIn} mb={2} />
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -66,6 +69,7 @@ function App() {
                 />
               }
             />
+            <Route path="/machines/:id/edit" element={<MachineEdit />} />
             <Route path="/hardware" element={<Hardware />} />
             <Route path="/hardware/:id" element={<HardwareDetails />} />
             <Route path="/software" element={<Software />} />

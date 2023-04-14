@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Container } from '@mui/material';
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Container, Divider } from '@mui/material';
 import axios from 'axios';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Snackbar, Alert } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -11,8 +11,10 @@ const Machines = () => {
     const [machines, setMachines] = useState([]);
     const [openDialog, setOpenDialog] = useState(false);
     const [nameInputValue, setNameInputValue] = useState('');
+    const [machineidInputValue, setMachineidInputValue] = useState('');
     const [serialNumberInputValue, setSerialNumberInputValue] = useState('');
     const [siteIdInputValue, setSiteIdInputValue] = useState('');
+    const [informationInputValue, setInformationInputValue] = useState('');
     const [tagNumberInputValue, setTagNumberInputValue] = useState('');
     const [typeInputValue, setTypeInputValue] = useState('');
     const [soInputValue, setSoInputValue] = useState('');
@@ -42,6 +44,8 @@ const Machines = () => {
         try {
             await axios.post(API_URL, {
                 name: nameInputValue,
+                machineid: machineidInputValue,
+                information:informationInputValue,
                 serial_number: serialNumberInputValue,
                 siteid: siteIdInputValue,
                 tag_number: tagNumberInputValue || null,
@@ -80,6 +84,17 @@ const Machines = () => {
                 <Dialog open={openDialog} onClose={handleClose}>
                     <DialogTitle>Add Machine</DialogTitle>
                     <DialogContent>
+                        <TextField
+                            id="machineid"
+                            label="machineid"
+                            value={machineidInputValue}
+                            onChange={(e) => setMachineidInputValue(e.target.value)}
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            required
+                            InputLabelProps={{ shrink: true }}
+                        />
                         <TextField
                             id="name"
                             label="Name"
@@ -153,6 +168,17 @@ const Machines = () => {
                             variant="outlined"
                             InputLabelProps={{ shrink: true }}
                         />
+                        <TextField
+                            id="information"
+                            label="information"
+                            value={informationInputValue}
+                            onChange={(e) => setInformationInputValue(e.target.value)}
+                            fullWidth
+                            margin="normal"
+                            variant="outlined"
+                            required
+                            InputLabelProps={{ shrink: true }}
+                        />
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={handleClose}>Cancel</Button>
@@ -166,6 +192,8 @@ const Machines = () => {
                                 <TableCell>ID</TableCell>
                                 <TableCell>Name</TableCell>
                                 <TableCell>Serial Number</TableCell>
+                                <TableCell>Actions</TableCell>
+
                                 {/* Add other column headers here */}
                             </TableRow>
                         </TableHead>

@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Snackbar, Alert, Paper, TableContainer, Typography, Box, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Container } from '@mui/material';
+import { Snackbar, Alert, Paper, TableContainer, Typography, Box, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button, Container, Divider } from '@mui/material';
+import EditIcon from '@mui/icons-material/Edit';
+import MachineEdit from './MachineEdit';
 import './MachineDetails.css';
 
 const MachineDetails = (props) => {
@@ -14,6 +16,30 @@ const MachineDetails = (props) => {
     const [snackbarOpen, setSnackbarOpen] = useState(false);
     const [messageType, setMessageType] = useState('success');
     const [shake, setShake] = useState(false);
+    const [editModalOpen, setEditModalOpen] = useState(false);
+    const [editDialogOpen, setEditDialogOpen] = useState(false);
+
+    const handleOpenEditDialog = () => {
+        setEditDialogOpen(true);
+    };
+
+    const handleCloseEditDialog = () => {
+        setEditDialogOpen(false);
+    };
+
+    const handleEditClick = () => {
+        setEditModalOpen(true);
+    };
+
+    const handleUpdateMachine = (updatedMachine) => {
+        setMachine(updatedMachine);
+        handleCloseEditDialog();
+    };
+
+
+    const handleEditModalClose = () => {
+        setEditModalOpen(false);
+    };
 
     function handleOpen() {
         setOpen(true);
@@ -37,7 +63,6 @@ const MachineDetails = (props) => {
         if (deleteInput === machine.name) {
             try {
                 await axios.delete(`http://localhost:3001/api/machines/${id}`);
-                // Close the dialog and show the success snackbar
                 setOpen(false);
                 handleSnackbarOpen('success');
                 // Redirect to the machines list page after successful deletion
@@ -84,6 +109,11 @@ const MachineDetails = (props) => {
     return (
         <Container maxWidth="lg">
             <Paper elevation={10} style={{ padding: '1rem' }}>
+                <Divider>
+                    <Typography variant="h4" component="h1" gutterBottom>
+                        {machine.name}
+                    </Typography>
+                </Divider>
                 <Box sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -91,13 +121,24 @@ const MachineDetails = (props) => {
                     marginBottom: '1rem',
                 }}
                 >
-                    <Typography variant="h4" component="h1" gutterBottom>
-                        {machine.name}
-                    </Typography>
+                    <Button variant="outlined" color="primary" onClick={handleOpenEditDialog}>
+                        Edit
+                    </Button>
                     <Button variant="outlined" color="error" onClick={handleOpen}>
                         Delete Machine
                     </Button>
                 </Box>
+                <Dialog
+                    open={editDialogOpen}
+                    onClose={handleCloseEditDialog}
+                    maxWidth="md"
+                    fullWidth
+                >
+                    <DialogContent>
+                        <MachineEdit machine={machine} onSubmit={handleCloseEditDialog} onMachineUpdate={updatedMachine => handleUpdateMachine(updatedMachine)} />
+                    </DialogContent>
+                </Dialog>
+
                 <Dialog open={open} onClose={handleClose} className={shake ? 'shake' : ''}>
                     <DialogTitle>Confirm Deletion</DialogTitle>
                     <DialogContent>
@@ -152,11 +193,16 @@ const MachineDetails = (props) => {
                     CCCREF: {machine.cccref}
                 </Typography>
                 <Typography variant="subtitle1" gutterBottom>
-                    machineID: {machine.machineID}
+                    machineID: {machine.machineid}
                 </Typography>
-                <Typography variant="h5" component="h2" gutterBottom>
-                    Delivery
+                <Typography variant="subtitle1" gutterBottom>
+                    Informations: {machine.information}
                 </Typography>
+                <Divider>
+                    <Typography variant="h4" component="h1" gutterBottom>
+                        Delivery
+                    </Typography>
+                </Divider>
                 {delivery.length === 0 ? (
                     <Typography variant="body1" component="p" gutterBottom>
                         No deliveries associated with this machine.
